@@ -1,0 +1,72 @@
+---
+import { wedding, eventDate, eventTime, eventDay } from '../config/wedding';
+import type { Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+---
+
+<section class="section" id="venue">
+  <div class="wrap">
+    <div class="venue-head">
+      <div>
+        <p class="caps muted">Ngày vui của hai gia đình</p><h2
+          class="heading"
+          style="margin-top:15px"
+        >
+          Hẹn bạn tại lễ cưới.
+        </h2>
+      </div><p class="intro">
+        Hai địa điểm, cùng một niềm vui. Lời mời của bạn được đánh dấu bên dưới.
+      </p>
+    </div><div class="venues">
+      {
+        (['bride', 'groom'] as const).map((venueSide) => {
+          const venue = wedding.events[venueSide];
+          return (
+            <article class:list={['venue', { selected: venueSide === side }]}>
+              <>
+                <p class="caps">
+                  {venueSide === 'bride' ? 'Nhà gái' : 'Nhà trai'}{' '}
+                  {venueSide === side && (
+                    <span class="invited">Bạn được mời tại đây</span>
+                  )}
+                </p>
+                <h3>{venue.title}</h3>
+                <p class="time">{eventTime(venue.date)}</p>
+                <p class="muted">
+                  {eventDay(venue.date)} · {eventDate(venue.date)}
+                </p>
+                <p class="address">
+                  {venue.venue}
+                  <br />
+                  {venue.address}
+                </p>
+                <div
+                  class="map"
+                  data-embed={venue.embedUrl}
+                  data-title={venue.venue}
+                >
+                  <p role="status">
+                    {venue.embedUrl
+                      ? 'Bản đồ đang chờ tải…'
+                      : 'Địa điểm sẽ được cập nhật.'}
+                  </p>
+                </div>
+                <a
+                  class="map-link"
+                  href={venue.mapUrl}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Mở Google Maps ↗
+                </a>
+              </>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

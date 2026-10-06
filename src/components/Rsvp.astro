@@ -1,0 +1,113 @@
+---
+import { wedding, eventDate, eventTime } from '../config/wedding';
+import type { Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+const event = wedding.events[side];
+---
+
+<section class="section rsvp" id="rsvp">
+  <div class="wrap rsvp-grid">
+    <div>
+      <p class="caps muted">Xác nhận tham dự</p><h2
+        class="heading"
+        style="margin-top:15px"
+      >
+        Có bạn, ngày vui<br />thêm trọn vẹn.
+      </h2><p class="intro">
+        Bạn dành một chút thời gian xác nhận để gia đình chuẩn bị đón tiếp thật
+        chu đáo nhé.
+      </p><div class="rsvp-date">
+        <p class="caps" id="rsvpSide">
+          {event.title} · {side === 'bride' ? 'Nhà gái' : 'Nhà trai'}
+        </p><strong id="rsvpTime"
+          >{eventTime(event.date)} · {eventDate(event.date)}</strong
+        ><p id="rsvpPlace">{event.venue} · {event.address}</p>
+      </div>
+    </div><form
+      class="form-panel"
+      id="rsvpForm"
+      data-side={side}
+      method="post"
+      action="/api/rsvp"
+    >
+      <label class="trap" aria-hidden="true"
+        >Để trống<input
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+        /></label
+      ><noscript
+        ><p>
+          Bạn vui lòng bật JavaScript để gửi biểu mẫu, hoặc liên hệ gia đình
+          trực tiếp.
+        </p></noscript
+      ><h3>Hẹn gặp bạn tại lễ cưới</h3><p class="hint">
+        Thông tin chỉ dành cho gia đình quản lý danh sách khách.
+      </p><label class="field" for="guestName">Họ và tên</label><input
+        id="guestName"
+        name="name"
+        maxlength="80"
+        required
+        autocomplete="name"
+        placeholder="Nhập tên của bạn"
+      /><label class="field" for="guestPhone">Số điện thoại</label><input
+        id="guestPhone"
+        name="phone"
+        type="tel"
+        maxlength="20"
+        inputmode="tel"
+        required
+        autocomplete="tel"
+        placeholder="09…"
+      /><p class="field" style="margin-top:22px;font-size:13px">
+        Bạn có thể đến chung vui không?
+      </p><div class="choices">
+        <label class="choice"
+          ><input type="radio" name="attending" value="yes" checked />Sẽ tham dự</label
+        ><label class="choice"
+          ><input type="radio" name="attending" value="no" />Rất tiếc không thể</label
+        >
+      </div><div id="attendanceFields">
+        <label class="field" id="guestCountLabel" for="guestCount"
+          >Số người tham dự (bao gồm bạn)</label
+        ><div
+          class="guest-stepper"
+          role="group"
+          aria-labelledby="guestCountLabel"
+        >
+          <button
+            type="button"
+            class="guest-stepper-button"
+            data-count-action="decrement"
+            aria-label="Giảm số người tham dự">−</button
+          ><output id="guestCountValue" for="guestCount" aria-live="polite"
+            >1 người</output
+          ><button
+            type="button"
+            class="guest-stepper-button"
+            data-count-action="increment"
+            aria-label="Tăng số người tham dự">+</button
+          ><input id="guestCount" name="count" type="hidden" value="1" />
+        </div><div id="transportFields" hidden={side !== 'groom'}>
+          <p style="font-size:13px;margin-top:22px">
+            Bạn dự định di chuyển bằng cách nào?
+          </p><div class="choices">
+            <label class="choice"
+              ><input type="radio" name="transport" value="bus" checked />Đi xe
+              chung</label
+            ><label class="choice"
+              ><input type="radio" name="transport" value="self" />Tự đi</label
+            >
+          </div><p class="hint" style="margin:12px 0 0">
+            {wedding.copy.busNote}
+          </p>
+        </div>
+      </div><button class="btn full" type="submit"
+        >Xác nhận tham dự <span aria-hidden="true">↗</span></button
+      ><p class="status" role="status"></p>
+    </form>
+  </div>
+</section>

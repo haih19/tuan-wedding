@@ -1,0 +1,39 @@
+---
+import { wedding } from '../config/wedding';
+import type { Side } from '../types/wedding';
+import Picture from './Photo.astro';
+interface Props {
+  side: Side;
+}
+---
+
+<section class="section story" id="story">
+  <div class="wrap story-grid">
+    <div class="story-intro">
+      <p class="caps muted">Chuyện chúng mình</p><h2
+        class="heading copy-lines"
+        style="margin-top:15px"
+      >
+        {wedding.copy.storyTitle}
+      </h2><p class="intro">{wedding.copy.storyIntro}</p><Picture
+        src={wedding.gallery[3].src}
+        alt={wedding.gallery[3].alt}
+        widths={[480, 780]}
+        formats={['webp']}
+        loading="lazy"
+      />
+    </div><div class="timeline">
+      {
+        wedding.story.map((moment) => (
+          <article class="moment">
+            <>
+              <p class="caps">{moment.date}</p>
+              <h3>{moment.title}</h3>
+              <p>{moment.text}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

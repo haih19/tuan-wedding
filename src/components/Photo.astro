@@ -1,0 +1,24 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  src: string;
+  alt: string;
+  widths: number[];
+  sizes?: string;
+  formats?: 'webp'[];
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'auto';
+  id?: string;
+}
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../../public/images/*.webp',
+  { eager: true },
+);
+const { src, ...props } = Astro.props;
+const image = images[`../../public${src}`]?.default;
+if (!image)
+  throw new Error(`Missing image ${src}. Put WebP photos in public/images.`);
+---
+
+<Picture fallbackFormat="webp" src={image} {...props} />

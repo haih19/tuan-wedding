@@ -1,0 +1,33 @@
+---
+import { wedding } from '../config/wedding';
+import type { Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+const event = wedding.events[side];
+---
+
+<section class="invite">
+  <div class="wrap">
+    <p class="caps muted">{wedding.copy.inviteEyebrow}</p><p
+      class="text copy-lines"
+    >
+      {wedding.copy.inviteText}
+    </p><p class="event-note" id="inviteText">
+      Trân trọng kính mời bạn đến chung vui cùng gia đình {
+        side === 'bride' ? 'nhà gái' : 'nhà trai'
+      }.
+    </p><div
+      class="countdown"
+      aria-label="Đếm ngược tới ngày cưới"
+      data-date={event.date}
+    >
+      <div><strong id="days">75</strong><small>Ngày</small></div><div>
+        <strong id="hours">00</strong><small>Giờ</small>
+      </div><div><strong id="minutes">00</strong><small>Phút</small></div><div>
+        <strong id="seconds">00</strong><small>Giây</small>
+      </div>
+    </div>
+  </div>
+</section>

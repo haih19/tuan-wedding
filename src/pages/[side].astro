@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/WeddingLayout.astro';
+import Hero from '../components/Hero.astro';
+import Invitation from '../components/Invitation.astro';
+import Couple from '../components/Couple.astro';
+import Story from '../components/Story.astro';
+import Venues from '../components/Venues.astro';
+import Gallery from '../components/Gallery.astro';
+import Wishes from '../components/Wishes.astro';
+import Rsvp from '../components/Rsvp.astro';
+import Gifts from '../components/Gifts.astro';
+import type { Side } from '../types/wedding';
+export function getStaticPaths() {
+  return ['bride', 'groom'].map((side) => ({ params: { side } }));
+}
+const side = Astro.params.side as Side;
+---
+
+<Layout side={side}
+  ><Hero side={side} /><Invitation side={side} /><Couple side={side} /><Story
+    side={side}
+  /><Venues side={side} /><Gallery side={side} /><Wishes side={side} /><Rsvp
+    side={side}
+  /><Gifts side={side} /></Layout
+>

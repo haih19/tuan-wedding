@@ -1,0 +1,53 @@
+---
+import { wedding } from '../config/wedding';
+import type { Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const gifts = (['bride', 'groom'] as const).map((side) => ({
+  ...wedding.gifts[side],
+  side,
+  label: side === 'bride' ? 'Gửi cô dâu' : 'Gửi chú rể',
+}));
+---
+
+<section class="section gift" id="gift">
+  <div class="wrap">
+    <p class="caps muted">Mừng cưới</p>
+    <h2 class="heading" style="margin-top:15px">
+      Một món quà, một lời thương.
+    </h2>
+    <p class="intro">
+      Sự hiện diện của bạn là món quà quý nhất.<br />Nếu muốn gửi thêm lời chúc,
+      bạn có thể chọn bên dưới.
+    </p>
+    <div class="gift-grid">
+      {
+        gifts.map((gift) => (
+          <article class="gift-card">
+            <p class="caps">{gift.label}</p>
+            <h3>{gift.recipient}</h3>
+            <button
+              class="qr-button"
+              data-qr={gift.side}
+              aria-label={`Mở riêng QR ${gift.recipient}`}
+            >
+              <img
+                class="qr"
+                src={gift.qr}
+                alt={`QR ${gift.recipient}`}
+                loading="lazy"
+                width="180"
+                height="180"
+              />
+            </button>
+            <small>Chạm để mở QR riêng</small>
+            {gift.isMock && (
+              <p class="mock">Minh họa · Chưa dùng chuyển khoản</p>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+import { wedding, eventDate } from '../config/wedding';
+import type { Side } from '../types/wedding';
+import Picture from './Photo.astro';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+const event = wedding.events[side];
+---
+
+<section class="hero" id="hero">
+  <Picture
+    src={wedding.hero.src}
+    alt={wedding.hero.alt}
+    widths={[480, 780, 1240]}
+    sizes="(max-width: 620px) 100vw, 620px"
+    formats={['webp']}
+    loading="eager"
+    fetchpriority="high"
+    id="heroImage"
+  /><div class="wrap">
+    <p class="caps">{wedding.copy.heroLabel}</p><h1 class="names">
+      <span class="person">{wedding.couple.groom.shortName}</span><span
+        class="and">&</span
+      ><span class="person">{wedding.couple.bride.shortName}</span>
+    </h1><div class="hero-bottom">
+      <div class="hero-date">
+        <p>{eventDate(event.date)}</p>
+      </div>
+    </div>
+  </div>
+</section>

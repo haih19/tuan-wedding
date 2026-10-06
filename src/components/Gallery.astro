@@ -1,0 +1,43 @@
+---
+import { wedding } from '../config/wedding';
+import type { Side } from '../types/wedding';
+import Picture from './Photo.astro';
+interface Props {
+  side: Side;
+}
+---
+
+<section class="section gallery" id="gallery">
+  <div class="wrap">
+    <div class="gallery-heading">
+      <div>
+        <p class="caps muted">Những khoảnh khắc bên nhau</p><h2
+          class="heading"
+          style="margin-top:15px"
+        >
+          {wedding.copy.galleryTitle}
+        </h2>
+      </div><p class="intro copy-lines">{wedding.copy.galleryIntro}</p>
+    </div><div class="gallery-grid" id="galleryGrid">
+      {
+        wedding.gallery.map((photo, i) => (
+          <a
+            class="photo"
+            href={photo.src}
+            data-photo={i}
+            aria-label={`Mở ảnh ${i + 1}`}
+          >
+            <Picture
+              src={photo.src}
+              alt={photo.alt}
+              widths={[320, 640, 960]}
+              sizes="(max-width:700px) 45vw, 340px"
+              formats={['webp']}
+              loading="lazy"
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

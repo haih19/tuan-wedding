@@ -1,0 +1,95 @@
+---
+import SpeedInsights from '@vercel/speed-insights/astro';
+import { wedding } from '../config/wedding';
+import '../styles/global.css';
+import elegant from '../themes/elegant.css?inline';
+import traditional from '../themes/traditional.css?inline';
+import { WeddingTheme, type Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+const site = Astro.site!;
+if (import.meta.env.PROD && ['localhost', '127.0.0.1'].includes(site.hostname))
+  throw new Error('SITE_URL must be a public URL');
+const url = new URL(`/${side}/`, site);
+const title = `${wedding.couple.groom.shortName} & ${wedding.couple.bride.shortName} · ${wedding.events[side].title}`;
+const palette = wedding.theme === WeddingTheme.Elegant ? elegant : traditional;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    /><title>{title}</title><meta
+      name="description"
+      content={wedding.seo.description}
+    /><link rel="canonical" href={url} /><meta
+      property="og:type"
+      content="website"
+    /><meta property="og:locale" content="vi_VN" /><meta
+      property="og:title"
+      content={title}
+    /><meta property="og:description" content={wedding.seo.description} /><meta
+      property="og:url"
+      content={url}
+    /><meta
+      property="og:image"
+      content={new URL(wedding.seo.image, site)}
+    /><meta name="twitter:card" content="summary_large_image" /><meta
+      name="theme-color"
+      content={wedding.theme === WeddingTheme.Elegant ? '#f8f7f2' : '#fcf8f4'}
+    /><style is:inline set:html={palette}></style></head
+  ><body data-side={side}
+    ><main><slot /></main><footer class="footer">
+      <strong
+        >{wedding.couple.groom.shortName} & {
+          wedding.couple.bride.shortName
+        }</strong
+      ><p>{wedding.copy.footer}</p><button
+        id="replay"
+        class="underline mt-4 text-sm">Xem lại hiệu ứng mở thiệp</button
+      >
+    </footer><button
+      class="music"
+      id="music"
+      aria-label="Bật nhạc"
+      aria-pressed="false"
+      hidden={!wedding.music.src}><span aria-hidden="true">♪</span></button
+    ><span class="sr-only" id="musicStatus" role="status"></span><dialog
+      id="lightbox"
+      aria-label="Xem ảnh cưới"
+    >
+      <button class="close" aria-label="Đóng ảnh">×</button><div class="viewer">
+        <img id="fullImage" alt="" />
+      </div><button class="prev" aria-label="Ảnh trước">‹</button><button
+        class="next"
+        aria-label="Ảnh tiếp">›</button
+      ><p class="counter" aria-live="polite"></p>
+    </dialog><dialog id="qrDialog" aria-labelledby="qrName">
+      <button class="close" aria-label="Đóng QR">×</button><p
+        class="caps muted"
+        id="qrSide"
+      >
+      </p><h3 id="qrName"></h3><img
+        class="qr"
+        alt=""
+        width="240"
+        height="240"
+      /><p id="qrDetail"></p>
+    </dialog><script
+      type="application/json"
+      id="weddingData"
+      set:html={JSON.stringify({
+        gallery: wedding.gallery,
+        gifts: wedding.gifts,
+        music: wedding.music,
+        monogram: wedding.monogram,
+      }).replaceAll('<', '\\u003c')}
+    /><script>
+      import '../scripts/main';
+    </script><SpeedInsights /></body
+  >
+</html>

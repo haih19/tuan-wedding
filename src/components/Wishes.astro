@@ -1,0 +1,60 @@
+---
+import type { Side } from '../types/wedding';
+interface Props {
+  side: Side;
+}
+const { side } = Astro.props;
+---
+
+<section class="section" id="wishes">
+  <div class="wrap wishes-grid">
+    <div>
+      <p class="caps muted">Sổ lưu bút</p><h2
+        class="heading"
+        style="margin-top:15px"
+      >
+        Gửi một lời thương.
+      </h2><p class="intro">
+        Lời chúc của bạn là một phần thật đẹp trong ngày vui của chúng mình.
+      </p><div class="wish-list" id="wishList" aria-live="polite">
+        <p>Các lời chúc đang chờ tải…</p>
+      </div><button type="button" id="retryWishes" hidden>Thử lại</button>
+    </div><form
+      class="form-panel"
+      id="wishForm"
+      data-side={side}
+      method="post"
+      action="/api/wishes"
+    >
+      <label class="trap" aria-hidden="true"
+        >Để trống<input
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+        /></label
+      ><noscript
+        ><p>
+          Bạn vui lòng bật JavaScript để gửi biểu mẫu, hoặc liên hệ gia đình
+          trực tiếp.
+        </p></noscript
+      ><h3>Lời chúc của bạn</h3><p class="hint">
+        Lời chúc sẽ xuất hiện sau khi gia đình duyệt.
+      </p><label class="field" for="wishName">Tên của bạn</label><input
+        id="wishName"
+        name="name"
+        maxlength="80"
+        required
+        placeholder="Bạn tên là…"
+        autocomplete="name"
+      /><label class="field" for="wishMessage">Lời nhắn gửi</label><textarea
+        id="wishMessage"
+        name="message"
+        required
+        maxlength="1000"
+        placeholder="Viết lời chúc dành cho hai bạn…"></textarea><button
+        class="btn full"
+        type="submit">Gửi lời chúc <span aria-hidden="true">↗</span></button
+      ><p class="status" role="status"></p>
+    </form>
+  </div>
+</section>
