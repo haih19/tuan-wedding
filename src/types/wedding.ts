@@ -40,6 +40,13 @@ export interface WeddingConfig {
   story: { date: string; title: string; text: string }[];
   gifts: Record<Side, Gift>;
   music: { src: string; volume: number };
-  seo: { description: string; image: string };
+  seo: {
+    description: string;
+    image: string;
+    imageAlt: string;
+    imageType: string;
+    imageWidth: number;
+    imageHeight: number;
+  };
   copy: Record<string, string>;
 }

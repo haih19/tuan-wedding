@@ -104,7 +104,11 @@ export const wedding: WeddingConfig = {
   seo: {
     description:
       'Trân trọng kính mời bạn đến chung vui trong ngày cưới của Minh Tuấn và Thuỳ Linh.',
-    image: '/images/anh1.webp',
+    image: '/images/anh1.webp?v=2',
+    imageAlt: 'Ảnh cưới Minh Tuấn và Thuỳ Linh',
+    imageType: 'image/webp',
+    imageWidth: 2048,
+    imageHeight: 1365,
   },
   copy: {
     heroLabel: 'Wedding',

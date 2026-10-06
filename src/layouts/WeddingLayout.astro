@@ -13,6 +13,7 @@ const site = Astro.site!;
 if (import.meta.env.PROD && ['localhost', '127.0.0.1'].includes(site.hostname))
   throw new Error('SITE_URL must be a public URL');
 const url = new URL(`/${side}/`, site);
+const seoImage = new URL(wedding.seo.image, site);
 const title = `${wedding.couple.groom.shortName} & ${wedding.couple.bride.shortName} · ${wedding.events[side].title}`;
 const palette = wedding.theme === WeddingTheme.Elegant ? elegant : traditional;
 ---
@@ -35,10 +36,28 @@ const palette = wedding.theme === WeddingTheme.Elegant ? elegant : traditional;
     /><meta property="og:description" content={wedding.seo.description} /><meta
       property="og:url"
       content={url}
+    /><meta property="og:image" content={seoImage} /><meta
+      property="og:image:url"
+      content={seoImage}
+    /><meta property="og:image:secure_url" content={seoImage} /><meta
+      property="og:image:type"
+      content={wedding.seo.imageType}
     /><meta
-      property="og:image"
-      content={new URL(wedding.seo.image, site)}
-    /><meta name="twitter:card" content="summary_large_image" /><meta
+      property="og:image:width"
+      content={String(wedding.seo.imageWidth)}
+    /><meta
+      property="og:image:height"
+      content={String(wedding.seo.imageHeight)}
+    /><meta property="og:image:alt" content={wedding.seo.imageAlt} /><meta
+      name="twitter:card"
+      content="summary_large_image"
+    /><meta name="twitter:title" content={title} /><meta
+      name="twitter:description"
+      content={wedding.seo.description}
+    /><meta name="twitter:image" content={seoImage} /><meta
+      name="twitter:image:alt"
+      content={wedding.seo.imageAlt}
+    /><meta
       name="theme-color"
       content={wedding.theme === WeddingTheme.Elegant ? '#f8f7f2' : '#fcf8f4'}
     /><style is:inline set:html={palette}></style></head
